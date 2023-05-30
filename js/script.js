@@ -5,6 +5,7 @@ let design = document.getElementById('design');
 let color = document.getElementById('color');
 let activities = document.getElementById('activities');
 let activitiesCost = document.getElementById('activities-cost');
+let paymentMethod = document.getElementById("payment");
 
 let jsPuns = document.querySelectorAll('[data-theme="js puns"]');
 let heartJs = document.querySelectorAll('[data-theme="heart js"]');
@@ -80,3 +81,33 @@ activities.addEventListener("change", (event) => {
         activitiesCost.innerHTML = costHTML;
     }
 })
+
+
+paymentMethod[1].setAttribute("selected", true);
+document.getElementById("paypal").style.display = "none";
+document.getElementById("bitcoin").style.display = "none";
+
+
+function paymentMethodButton() {
+    if (paymentMethod.value == "paypal") {
+        document.getElementById("credit-card").style.display = "none"
+        document.getElementById("bitcoin").style.display = "none"
+        document.getElementById("paypal").style.display = "block"
+    }
+    if (paymentMethod.value == "bitcoin") {
+        document.getElementById("credit-card").style.display = "none"
+        document.getElementById("bitcoin").style.display = "block"
+        document.getElementById("paypal").style.display = "none"
+    }
+    if (paymentMethod.value == "credit-card") {
+        document.getElementById("credit-card").style.display = "block"
+        document.getElementById("bitcoin").style.display = "none"
+        document.getElementById("paypal").style.display = "none"
+    }
+}
+
+paymentMethod.addEventListener("change", paymentMethodButton)
+
+console.log(paymentMethod);
+console.log(document.getElementById("payment"))
+
