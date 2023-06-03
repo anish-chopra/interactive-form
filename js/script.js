@@ -6,9 +6,21 @@ let color = document.getElementById('color');
 let activities = document.getElementById('activities');
 let activitiesCost = document.getElementById('activities-cost');
 let paymentMethod = document.getElementById("payment");
+let email = document.getElementById("email");
+
 
 let jsPuns = document.querySelectorAll('[data-theme="js puns"]');
 let heartJs = document.querySelectorAll('[data-theme="heart js"]');
+
+
+
+// const mainJS = document.getElementsByName('all')[0];
+// const usLibs = document.getElementsByName('us-libs')[0];
+// const node = document.getElementsByName('node')[0];
+// const usFrameworks = document.getElementsByName('us-frameworks')[0];
+// const buildTools = document.getElementsByName('buildTools')[0];
+// const npm = document.getElementsByName('npm')[0];
+// const express = document.getElementsByName('express')[0];
 
 
 // Call the focus method on the name input to have it auto focus on page load
@@ -108,6 +120,122 @@ function paymentMethodButton() {
 
 paymentMethod.addEventListener("change", paymentMethodButton)
 
-console.log(paymentMethod);
-console.log(document.getElementById("payment"))
+function validateForm() {
+        let regName = /[\S\s]+[\S]+/;
+        let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        let creditCard = /^\d{13,16}$/;
+        let creditCardValue = document.getElementById("cc-num").value;
+        let cvv = /^\d{3}$/
+        let cvvValue = document.getElementById("cvv").value;
+        let zip = /^\d{5}$/;
+        let zipValue = document.getElementById("zip").value;
+        let nameValue = document.getElementById('name');
+        const mainJS = document.getElementsByName('all')[0];
+        const usLibs = document.getElementsByName('js-libs')[0];
+        const node = document.getElementsByName('node')[0];
+        const usFrameworks = document.getElementsByName('js-frameworks')[0];
+        const buildTools = document.getElementsByName('build-tools')[0];
+        const npm = document.getElementsByName('npm')[0];
+        const express = document.getElementsByName('express')[0];
+        let isTrue = false;
+        if (mainJS.checked) {
+            isTrue = true;
+        }
+        if (usLibs.checked) {
+            isTrue = true;
+        }
+        if (node.checked) {
+            isTrue = true;
+        }
+        if (usFrameworks.checked) {
+            isTrue = true;
+        }
+        if (buildTools.checked) {
+            isTrue = true;
+        }
+        if (npm.checked) {
+            isTrue = true;
+        }
+        if (express.checked) {
+            isTrue = true;
+        }
+        if (!regName.test(nameValue.value)) {
+            nameValue.parentNode.className = "not-valid";
+            document.getElementById("name-hint").style.display = "block";
+        } else {
+            nameValue.parentNode.className = "valid";
+            document.getElementById("name-hint").style.display = "none";
+        }
+        if (!mailformat.test(email.value)) {
+            email.parentNode.className = "not-valid";
+            document.getElementById("email-hint").style.display = "block";
+        } else {
+            email.parentNode.className = "valid";
+            document.getElementById("email-hint").style.display = "none";
+        }
+        if (!isTrue) {
+            mainJS.parentNode.parentNode.parentNode.classList.add("not-valid");
+            document.getElementById("activities-hint").style.display = "block";
+        } else {
+            mainJS.parentNode.parentNode.parentNode.classList.remove("not-valid");
+            mainJS.parentNode.parentNode.parentNode.classList.add("valid");
+            document.getElementById("activities-hint").style.display = "none";
+        }
+        if (paymentMethod.value == "credit-card"){
+            if (!creditCard.test(creditCardValue)) {
+                document.getElementById("cc-hint").style.display = "block";
+            } else {
+                document.getElementById("cc-hint").style.display = "none";
+            }
+            if (!cvv.test(cvvValue)) {
+                document.getElementById("cvv-hint").style.display = "block";
+            } else {
+                document.getElementById("cvv-hint").style.display = "none";
+            }
+            if (!zip.test(zipValue)) {
+                document.getElementById("zip-hint").style.display = "block";
+            } else {
+                document.getElementById("zip-hint").style.display = "none";
+            }
+        }
+        if (regName.test(nameValue.value) && email.value.match(mailformat) && isTrue && creditCard.test(creditCardValue) && cvv.test(cvvValue) && zip.test(zipValue)) {
+            return true;
+        } else {
+            return false
+        }
+      }
+document.querySelector("button").addEventListener("click", e => {
+    validateForm();
+    e.preventDefault();
+});
 
+// ACTIVITIES SECTION BLUR AND FOCUS FUNCTIONALITY
+
+let checkboxInput = document.querySelectorAll("[type='checkbox']");;
+for (let i = 0; i < checkboxInput.length; i++) {
+    checkboxInput[i].addEventListener("focus", (e) => {
+        e.target.parentNode.className = "focus";
+    });
+    checkboxInput[i].addEventListener("blur", (e) => {
+        e.target.parentNode.classList.remove("focus");
+    });
+}
+
+
+
+
+
+
+
+// DO THIS AFTER FOR NAME ERROR IN REAL TIME
+//       function validateName(){
+//         var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
+//         var nameValue = document.getElementById('name').value;
+//         if(!regName.test(nameValue)){
+//             alert('Please enter your full name (first & last name).');
+//             return false;
+//         }else{
+//             return true;
+//         }
+//     }
+// name.addEventListener("focusout", );
