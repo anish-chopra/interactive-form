@@ -7,11 +7,11 @@ let activities = document.getElementById('activities');
 let activitiesCost = document.getElementById('activities-cost');
 let paymentMethod = document.getElementById("payment");
 let email = document.getElementById("email");
+let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 
 let jsPuns = document.querySelectorAll('[data-theme="js puns"]');
 let heartJs = document.querySelectorAll('[data-theme="heart js"]');
-
 
 
 // const mainJS = document.getElementsByName('all')[0];
@@ -206,7 +206,9 @@ function validateForm() {
       }
 document.querySelector("button").addEventListener("click", e => {
     validateForm();
+    if (!validateForm()) {
     e.preventDefault();
+}
 });
 
 // ACTIVITIES SECTION BLUR AND FOCUS FUNCTIONALITY
@@ -227,15 +229,37 @@ for (let i = 0; i < checkboxInput.length; i++) {
 
 
 
-// DO THIS AFTER FOR NAME ERROR IN REAL TIME
-//       function validateName(){
-//         var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
-//         var nameValue = document.getElementById('name').value;
-//         if(!regName.test(nameValue)){
-//             alert('Please enter your full name (first & last name).');
-//             return false;
-//         }else{
-//             return true;
-//         }
-//     }
-// name.addEventListener("focusout", );
+
+
+let activitiesBox = document.getElementById("activities-box");
+
+for (let i = 1; i < activitiesBox.children.length -1 ; i++){
+
+
+activitiesBox.children[i].childNodes[1].addEventListener("click", e => {
+
+    for (let i = 1; i < activitiesBox.children.length; i++) {
+        if (e.target.parentNode.parentNode.children[i].firstChild.nextElementSibling !== e.target && e.target.parentNode.parentNode.children[i].children[2].innerText == e.target.parentNode.children[2].innerText && e.target.checked) {
+            e.target.parentNode.parentNode.children[i].children[0].disabled = true;
+            e.target.parentNode.parentNode.children[i].className = "disabled";
+    } else if (e.target.parentNode.parentNode.children[i].firstChild.nextElementSibling !== e.target && e.target.parentNode.parentNode.children[i].children[2].innerText == e.target.parentNode.children[2].innerText && !e.target.checked) {
+        e.target.parentNode.parentNode.children[i].children[0].disabled = false;
+            e.target.parentNode.parentNode.children[i].classList.remove("disabled");
+    }
+    }
+});
+}
+
+
+
+function validateEmail() {
+    if (!mailformat.test(email.value)) {
+        email.parentNode.className = "not-valid";
+        document.getElementById("email-hint").style.display = "block";
+    } else {
+        email.parentNode.className = "valid";
+        document.getElementById("email-hint").style.display = "none";
+    }
+}
+
+email.addEventListener("keyup", validateEmail);
