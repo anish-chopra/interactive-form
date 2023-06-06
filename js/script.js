@@ -1,3 +1,4 @@
+// Global Variables
 let name = document.getElementById('name');
 let otherJobRole = document.getElementById("other-job-role");
 let jobRole = document.getElementById('title');
@@ -86,6 +87,7 @@ activities.addEventListener("change", (event) => {
 })
 
 
+// Functionaility and event listener for selecting the Payment Method Options
 paymentMethod[1].setAttribute("selected", true);
 document.getElementById("paypal").style.display = "none";
 document.getElementById("bitcoin").style.display = "none";
@@ -111,6 +113,7 @@ function paymentMethodButton() {
 
 paymentMethod.addEventListener("change", paymentMethodButton)
 
+// Function to validate and event listener to submit the form
 function validateForm() {
         let regName = /[\S\s]+[\S]+/;
         let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -201,9 +204,13 @@ function validateForm() {
                 document.getElementById("zip-hint").style.display = "none";
             }
         }
-        if (regName.test(nameValue.value) && email.value.match(mailformat) && isTrue && creditCard.test(creditCardValue) && cvv.test(cvvValue) && zip.test(zipValue) && email.value !== "") {
+        if (paymentMethod.value == "credit-card" && regName.test(nameValue.value) && email.value.match(mailformat) && isTrue && creditCard.test(creditCardValue) && cvv.test(cvvValue) && zip.test(zipValue) && email.value !== "") {
             return true;
-        } else {
+        } 
+        if (paymentMethod.value !== "credit-card" && regName.test(nameValue.value) && email.value.match(mailformat) && isTrue && email.value !== "") {
+            return true;
+        }
+        else {
             return false
         }
       }
@@ -227,14 +234,7 @@ for (let i = 0; i < checkboxInput.length; i++) {
     });
 }
 
-
-
-
-
-
-
-
-
+// Functionality for non-conflicting time slots feature
 let activitiesBox = document.getElementById("activities-box");
 
 for (let i = 1; i < activitiesBox.children.length -1 ; i++){
@@ -255,7 +255,7 @@ activitiesBox.children[i].childNodes[1].addEventListener("click", e => {
 }
 
 
-
+// Conditional Error for Email Input
 function validateEmail() {
     if (!mailformat.test(email.value)) {
         email.parentNode.className = "not-valid";
