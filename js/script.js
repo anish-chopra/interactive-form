@@ -40,7 +40,7 @@ color.setAttribute("disabled", true)
 function designSelection() {
     if (design.value == "js puns") {
         color.removeAttribute("disabled");
-        color.selectedIndex = -1;
+        color.selectedIndex = 1;
         heartJs.forEach((heartJsElement) => {
             heartJsElement.style.display = "none";
         }
@@ -50,7 +50,7 @@ function designSelection() {
         })
     } else {
         color.removeAttribute("disabled");
-        color.selectedIndex = -1
+        color.selectedIndex = 4;
         jsPuns.forEach((jsPunsElement) => {
             jsPunsElement.style.display = "none";
     })
@@ -119,10 +119,13 @@ function validateForm() {
         let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         let creditCard = /^\d{13,16}$/;
         let creditCardValue = document.getElementById("cc-num").value;
+        let creditCardInput = document.getElementById("cc-num");
         let cvv = /^\d{3}$/
         let cvvValue = document.getElementById("cvv").value;
+        let cvvInput = document.getElementById("cvv");
         let zip = /^\d{5}$/;
         let zipValue = document.getElementById("zip").value;
+        let zipInput = document.getElementById("zip");
         let nameValue = document.getElementById('name');
         const mainJS = document.getElementsByName('all')[0];
         const usLibs = document.getElementsByName('js-libs')[0];
@@ -165,7 +168,6 @@ function validateForm() {
             `
             <span id="email-blank" class="email-hint hint">Email address must not be empty</span>
             `
-            
             document.getElementById("email-hint").insertAdjacentHTML("beforebegin", emailBlank);
             document.getElementById("email-blank").style.display = "block";
             email.parentNode.className = "not-valid";
@@ -190,18 +192,27 @@ function validateForm() {
         if (paymentMethod.value == "credit-card"){
             if (!creditCard.test(creditCardValue)) {
                 document.getElementById("cc-hint").style.display = "block";
+                creditCardInput.parentNode.className = "not-valid";
             } else {
                 document.getElementById("cc-hint").style.display = "none";
+                creditCardInput.parentNode.classList.remove("not-valid");
+                creditCardInput.parentNode.className = "valid";
             }
             if (!cvv.test(cvvValue)) {
                 document.getElementById("cvv-hint").style.display = "block";
+                cvvInput.parentNode.className = "not-valid";
             } else {
                 document.getElementById("cvv-hint").style.display = "none";
+                cvvInput.parentNode.classList.remove("not-valid");
+                cvvInput.parentNode.className = "valid";
             }
             if (!zip.test(zipValue)) {
                 document.getElementById("zip-hint").style.display = "block";
+                zipInput.parentNode.className = "not-valid";
             } else {
                 document.getElementById("zip-hint").style.display = "none";
+                zipInput.parentNode.classList.remove("not-valid");
+                zipInput.parentNode.className = "valid";
             }
         }
         if (paymentMethod.value == "credit-card" && regName.test(nameValue.value) && email.value.match(mailformat) && isTrue && creditCard.test(creditCardValue) && cvv.test(cvvValue) && zip.test(zipValue) && email.value !== "") {
@@ -257,14 +268,26 @@ activitiesBox.children[i].childNodes[1].addEventListener("click", e => {
 
 // Conditional Error for Email Input
 function validateEmail() {
-    if (!mailformat.test(email.value)) {
+    if (!mailformat.test(email.value) && email.value !== "") {
         email.parentNode.className = "not-valid";
         document.getElementById("email-hint").style.display = "block";
         document.getElementById("email-blank").style.display = "none";
+    } else if ((email.value === "")){
+        let emailBlank = 
+        `
+        <span id="email-blank" class="email-hint hint">Email address must not be empty</span>
+        `
+        
+        document.getElementById("email-hint").insertAdjacentHTML("beforebegin", emailBlank);
+        document.getElementById("email-blank").style.display = "block";
+        document.getElementById("email-hint").style.display = "none";
+        email.parentNode.className = "not-valid";
     } else {
         email.parentNode.className = "valid";
         document.getElementById("email-hint").style.display = "none";
+        document.getElementById("email-blank").style.display = "none";
     }
 }
 
 email.addEventListener("keyup", validateEmail);
+
