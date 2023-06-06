@@ -14,15 +14,6 @@ let jsPuns = document.querySelectorAll('[data-theme="js puns"]');
 let heartJs = document.querySelectorAll('[data-theme="heart js"]');
 
 
-// const mainJS = document.getElementsByName('all')[0];
-// const usLibs = document.getElementsByName('us-libs')[0];
-// const node = document.getElementsByName('node')[0];
-// const usFrameworks = document.getElementsByName('us-frameworks')[0];
-// const buildTools = document.getElementsByName('buildTools')[0];
-// const npm = document.getElementsByName('npm')[0];
-// const express = document.getElementsByName('express')[0];
-
-
 // Call the focus method on the name input to have it auto focus on page load
 name.focus();
 
@@ -166,10 +157,22 @@ function validateForm() {
             nameValue.parentNode.className = "valid";
             document.getElementById("name-hint").style.display = "none";
         }
-        if (!mailformat.test(email.value)) {
+        if (email.value === "") {
+            let emailBlank = 
+            `
+            <span id="email-blank" class="email-hint hint">Email address must not be empty</span>
+            `
+            
+            document.getElementById("email-hint").insertAdjacentHTML("beforebegin", emailBlank);
+            document.getElementById("email-blank").style.display = "block";
+            email.parentNode.className = "not-valid";
+        } else {
+            document.getElementById("email-blank").style.display = "none";
+        }
+        if (!mailformat.test(email.value) && email.value !== "") {
             email.parentNode.className = "not-valid";
             document.getElementById("email-hint").style.display = "block";
-        } else {
+        } else if (mailformat.test(email.value) && email.value !== ""){
             email.parentNode.className = "valid";
             document.getElementById("email-hint").style.display = "none";
         }
@@ -198,16 +201,17 @@ function validateForm() {
                 document.getElementById("zip-hint").style.display = "none";
             }
         }
-        if (regName.test(nameValue.value) && email.value.match(mailformat) && isTrue && creditCard.test(creditCardValue) && cvv.test(cvvValue) && zip.test(zipValue)) {
+        if (regName.test(nameValue.value) && email.value.match(mailformat) && isTrue && creditCard.test(creditCardValue) && cvv.test(cvvValue) && zip.test(zipValue) && email.value !== "") {
             return true;
         } else {
             return false
         }
       }
-document.querySelector("button").addEventListener("click", e => {
-    validateForm();
+document.querySelector("form").addEventListener("submit", e => {
     if (!validateForm()) {
-    e.preventDefault();
+        e.preventDefault();
+    validateForm();
+    
 }
 });
 
@@ -256,6 +260,7 @@ function validateEmail() {
     if (!mailformat.test(email.value)) {
         email.parentNode.className = "not-valid";
         document.getElementById("email-hint").style.display = "block";
+        document.getElementById("email-blank").style.display = "none";
     } else {
         email.parentNode.className = "valid";
         document.getElementById("email-hint").style.display = "none";
